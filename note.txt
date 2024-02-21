@@ -1,0 +1,3 @@
+- resize window, new window split
+- quick navigate between buffer
+- learn vim search and replace
