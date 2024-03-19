@@ -12,7 +12,17 @@ return {
   config = function()
     ---------------- nvim dap --------------------------------------
     local dap = require("dap")
-    vim.keymap.set('n', '<F5>', dap.continue)
+    vim.keymap.set('n', '<F5>',
+      function()
+        -- (Re-)reads launch.json if present
+        if vim.fn.filereadable(".vscode/launch.json") then
+          require("dap.ext.vscode").load_launchjs(nil,
+            { node = { 'javascript', 'javascriptreact', 'typescriptreact', 'typescript' } })
+        end
+        dap.continue()
+      end
+    )
+    vim.keymap.set('n', '<F6>', dap.terminate)
     vim.keymap.set('n', '<F10>', dap.step_over)
     vim.keymap.set('n', '<F11>', dap.step_into)
     vim.keymap.set('n', '<F12>', dap.step_out)
@@ -44,8 +54,14 @@ return {
     -- setup adapters
     require('dap-vscode-js').setup({
       debugger_path = vim.fn.stdpath('data') .. '/lazy/vscode-js-debug',
-      adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' },
+      adapters = { 'node', 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' },
     })
+
+    -- dap.adapters.node = {
+    --   type = 'executable',
+    --   command = 'node',
+    --   args = { vim.fn.stdpath('data') .. '/lazy/vscode-js-debug/out/src/vsDebugServer.js' },
+    -- }
 
     -- dap.adapters['pwa-node'] = function(cb, config)
     --   if config.preLaunchTask then
@@ -62,22 +78,22 @@ return {
     --   end
     -- end
 
-    for _, language in ipairs({ 'typescript', 'javascript' }) do
-      dap.configurations[language] = {
-        {
-          type = "pwa-node",
-          request = "launch",
-          name = "Launch Program",
-          skipFiles = {
-            "**/node_modules/**/*",
-            "<node_internals>/**"
-          },
-          program = "${workspaceFolder}/build/index.js",
-          cwd = "${workspaceFolder}",
-          -- preLaunchTask = "npm run build",
-          -- console = 'externalTerminal'
-        }
-      }
-    end
+    -- for _, language in ipairs({ 'typescript', 'javascript' }) do
+    --   dap.configurations[language] = {
+    --     {
+    --       type = "pwa-node",
+    --       request = "launch",
+    --       name = "Launch Program",
+    --       skipFiles = {
+    --         "**/node_modules/**/*",
+    --         "<node_internals>/**"
+    --       },
+    --       program = "${workspaceFolder}/build/index.js",
+    --       cwd = "${workspaceFolder}",
+    --       -- preLaunchTask = "npm run build",
+    --       -- console = 'externalTerminal'
+    --     }
+    --   }
+    -- end
   end
 }
