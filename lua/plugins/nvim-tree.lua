@@ -10,7 +10,7 @@ return {
       actions = {
         open_file = {
           quit_on_open = true
-        }
+        },
       },
       view = {
         width = 40,
@@ -24,6 +24,7 @@ return {
         custom = {},
         exclude = {},
       },
+      sync_root_with_cwd = true
     })
 
     vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeFindFile<CR>")

@@ -1,3 +1,3 @@
-require("ricky.options")
-require("ricky.keymaps")
-require("ricky.lazy")
+require("config.options")
+require("config.keymaps")
+require("config.lazy")

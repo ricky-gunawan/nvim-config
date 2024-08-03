@@ -35,10 +35,15 @@ vim.keymap.set({ "n", "v" }, "<leader>sp", "<cmd>sp<CR>", opts)
 vim.keymap.set({ "n", "v" }, "<C-A-j>", ":m '>+1<CR>gv=gv", opts)
 vim.keymap.set({ "n", "v" }, "<C-A-k>", ":m '<-2<CR>gv=gv", opts)
 vim.keymap.set("n", "<leader>o", "o<esc>", opts)
+vim.keymap.set("n", "<C-d>", "15j", opts)
+vim.keymap.set("n", "<C-u>", "15k", opts)
 
 -- Delete, Copy and Paste
-vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
-vim.keymap.set({ "n", "v" }, "<leader>p", "\"_dP")
+vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]], opts)
+vim.keymap.set({ "n", "v" }, "<leader>p", "\"_dP", opts)
 
 -- Highlighting
-vim.keymap.set("n", "<esc>", "<cmd>noh<CR>")
+vim.keymap.set("n", "<esc>", "<cmd>noh<CR>", opts)
+
+-- save file
+vim.keymap.set({ "n", "i" }, "<C-s>", "<esc><cmd>update<cr>", opts)
